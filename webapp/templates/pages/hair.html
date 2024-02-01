@@ -1,0 +1,360 @@
+{% include 'pages/index.html' %}
+
+{% load static %}
+
+<style>
+    h1 {
+        margin-top: 100px;
+        color: #000;
+        text-align: center;
+        font-size: 30px;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: -10px;
+    }
+
+    .col-md-4 {
+        flex: 0 0 calc(33.333% - 20px);
+        margin: 10px;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .image-container {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .col-md-4 img {
+        width: 100%;
+        height: auto;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .col-md-4:hover .image-container,
+    .col-md-4:hover img {
+        transform: scale(1.05);
+    }
+
+    #editButton {
+        background-color: #7d4c7d;
+        color: #fff;
+        padding: 7.5px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: block;
+        margin: 0 auto;
+        margin-left: 10px;
+    }
+
+    #editButton:hover {
+        background-color: #6a3a6a;
+    }
+    #saveChangesButton {
+    background-color: #7d4c7d;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+}
+
+#saveChangesButton:hover {
+    background-color: #6a3a6a;
+}
+
+
+</style>
+
+<div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewModalLabel">Donation Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="viewModalBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="editButton">Edit</button>
+
+                 <button type="button" class="btn btn-danger" id="deleteButton">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<form action="{% url 'save_edit' %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Donation Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form id="editDonationForm">
+
+                    <div class="form-group">
+                        <label for="editFullName">Full Name</label>
+                        <input type="text" class="form-control" id="editFullName" name="editFullName">
+                    </div>
+                    <div class="form-group">
+                        <label for="editAge">Age</label>
+                        <input type="text" class="form-control" id="editAge" name="editAge">
+                    </div>
+                    <div class="form-group">
+                        <label for="editGender">Gender</label>
+                        <input type="text" class="form-control" id="editGender" name="editGender">
+                    </div>
+                    <div class="form-group">
+                        <label for="editPhoneNumber">Phone Number</label>
+                        <input type="text" class="form-control" id="editPhoneNumber" name="editPhoneNumber">
+                    </div>
+                    <div class="form-group">
+                        <label for="editAddress">Address</label>
+                        <input type="text" class="form-control" id="editAddress" name="editAddress">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editImage1">Image 1</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="editImage1" name="editImage1">
+                            <div class="input-group-append">
+                                <label class="input-group-text" for="editImage1Input">Upload New Image</label>
+                                <input type="file" class="d-none" id="editImage1Input" accept="image/*">
+                            </div>
+                        </div>
+                        <img id="editImage1Preview" class="img-fluid mt-2" alt="Donation Image 1">
+                    </div>
+                    <div class="form-group">
+                        <label for="editImage2">Image 2</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="editImage2" name="editImage2">
+                            <div class="input-group-append">
+                                <label class="input-group-text" for="editImage2Input">Upload New Image</label>
+                                <input type="file" class="d-none" id="editImage2Input" accept="image/*">
+                            </div>
+                        </div>
+                        <img id="editImage2Preview" class="img-fluid mt-2" alt="Donation Image 2">
+                    </div>
+                    <div class="form-group">
+                        <label for="editImage3">Image 3</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="editImage3" name="editImage3">
+                            <div class="input-group-append">
+                                <label class="input-group-text" for="editImage3Input">Upload New Image</label>
+                                <input type="file" class="d-none" id="editImage3Input" accept="image/*">
+                            </div>
+                        </div>
+                        <img id="editImage3Preview" class="img-fluid mt-2" alt="Donation Image 3">
+                    </div>
+                    <input type="hidden" id="editDonationId" name="editDonationId" value="">
+                    <button type="submit" class="btn btn-primary" id="saveChangesButton">Save Changes</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var viewModal = new bootstrap.Modal(document.getElementById('viewModal'));
+    var editModal = new bootstrap.Modal(document.getElementById('editModal'));
+
+    function openViewModal(donationData) {
+        var modalBody = document.getElementById('viewModalBody');
+        modalBody.innerHTML = `
+            <p><strong>Full Name:</strong> ${donationData.fullname}</p>
+            <p><strong>Age:</strong> ${donationData.age}</p>
+            <p><strong>Gender:</strong> ${donationData.gender}</p>
+            <p><strong>Phone Number:</strong> ${donationData.phonenumber}</p>
+            <p><strong>Address:</strong> ${donationData.address}</p>
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="${donationData.image1}" class="img-fluid" alt="Donation Image">
+                </div>
+                <div class="col-md-4">
+                    <img src="${donationData.image2}" class="img-fluid" alt="Donation Image">
+                </div>
+                <div class="col-md-4">
+                    <img src="${donationData.image3}" class="img-fluid" alt="Donation Image">
+                </div>
+            </div>
+        `;
+        document.getElementById('editButton').setAttribute('data-id', donationData.id);
+        document.getElementById('editButton').setAttribute('data-fullname', donationData.fullname);
+        document.getElementById('editButton').setAttribute('data-age', donationData.age);
+        document.getElementById('editButton').setAttribute('data-gender', donationData.gender);
+        document.getElementById('editButton').setAttribute('data-phonenumber', donationData.phonenumber);
+        document.getElementById('editButton').setAttribute('data-address', donationData.address);
+        document.getElementById('editButton').setAttribute('data-image1', donationData.image1);
+        document.getElementById('editButton').setAttribute('data-image2', donationData.image2);
+        document.getElementById('editButton').setAttribute('data-image3', donationData.image3);
+        viewModal.show();
+    }
+
+    function openEditModal(donationData) {
+        document.getElementById('editDonationId').value = donationData.id;
+
+        document.getElementById('editFullName').value = donationData.fullname;
+        document.getElementById('editAge').value = donationData.age;
+        document.getElementById('editGender').value = donationData.gender;
+        document.getElementById('editPhoneNumber').value = donationData.phonenumber;
+        document.getElementById('editAddress').value = donationData.address;
+        document.getElementById('editImage1').value = donationData.image1;
+        document.getElementById('editImage2').value = donationData.image2;
+        document.getElementById('editImage3').value = donationData.image3;
+
+        document.getElementById('editImage1Preview').src = donationData.image1;
+        document.getElementById('editImage2Preview').src = donationData.image2;
+        document.getElementById('editImage3Preview').src = donationData.image3;
+
+        editModal.show();
+    }
+
+    document.querySelectorAll('.col-md-4').forEach(function (imageContainer) {
+        imageContainer.addEventListener('click', function () {
+            var donationData = {
+                id: imageContainer.getAttribute('data-id'),
+                fullname: imageContainer.getAttribute('data-fullname'),
+                age: imageContainer.getAttribute('data-age'),
+                gender: imageContainer.getAttribute('data-gender'),
+                phonenumber: imageContainer.getAttribute('data-phonenumber'),
+                address: imageContainer.getAttribute('data-address'),
+                image1: imageContainer.getAttribute('data-image1'),
+                image2: imageContainer.getAttribute('data-image2'),
+                image3: imageContainer.getAttribute('data-image3')
+            };
+            openViewModal(donationData);
+        });
+    });
+
+    document.getElementById('editButton').addEventListener('click', function () {
+        var donationData = {
+            id: document.getElementById('editButton').getAttribute('data-id'),
+            fullname: document.getElementById('editButton').getAttribute('data-fullname'),
+            age: document.getElementById('editButton').getAttribute('data-age'),
+            gender: document.getElementById('editButton').getAttribute('data-gender'),
+            phonenumber: document.getElementById('editButton').getAttribute('data-phonenumber'),
+            address: document.getElementById('editButton').getAttribute('data-address'),
+            image1: document.getElementById('editButton').getAttribute('data-image1'),
+            image2: document.getElementById('editButton').getAttribute('data-image2'),
+            image3: document.getElementById('editButton').getAttribute('data-image3')
+        };
+        openEditModal(donationData);
+    });
+
+    document.getElementById('saveChangesButton').addEventListener('click', function () {
+        var formData = new FormData(document.getElementById('editDonationForm'));
+        fetch('/save_edit/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                editModal.hide();
+                location.reload();
+            } else {
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An unexpected error occurred. Please try again later.');
+        });
+    });
+
+document.getElementById('deleteButton').addEventListener('click', function () {
+    var donationId = document.getElementById('editButton').getAttribute('data-id');
+    fetch(`/delete_donation/${donationId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        if (data.success) {
+            editModal.hide();
+            location.reload();
+        } else {
+            alert('Error: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An unexpected error occurred. Please try again later.');
+    });
+});
+
+});
+
+</script>
+
+
+
+
+
+{% block content %}
+    <h1>Hair Available</h1>
+
+    {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endfor %}
+  {% endif %}
+    <div class="container mt-4">
+        <div class="row">
+            {% for donation in donations %}
+                <div class="col-md-4 mb-4" data-fullname="{{ donation.full_name }}"
+                     data-id="{{ donation.id }}"
+                     data-age="{{ donation.age }}" data-gender="{{ donation.gender }}"
+                     data-phonenumber="{{ donation.phone_number }}" data-address="{{ donation.address }}"
+                     data-image1="{{ donation.image1.url }}" data-image2="{{ donation.image2.url }}"
+                     data-image3="{{ donation.image3.url }}">
+                    <div class="image-container">
+                        <img src="{{ donation.image1.url }}" class="img-fluid" alt="Donation Image">
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

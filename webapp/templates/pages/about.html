@@ -1,0 +1,89 @@
+{% load static %}
+
+{% include 'pages/index.html' %}
+
+<style>
+    #about {
+        text-align: center;
+        padding: 40px;
+        margin-top: 100px;
+    }
+
+    #about h1 {
+        font-size: 36px;
+        color: #4d4d4d; /* Dark gray header color */
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    #about p {
+        font-size: 18px;
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+
+    #about img {
+        max-width: 100%;
+        border-radius: 10px;
+        margin-top: 20px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .donate-button-container {
+        margin-top: 30px;
+    }
+
+    .donate-button {
+        display: inline-block;
+        padding: 15px 35px;
+        font-size: 18px;
+        text-decoration: none;
+        color: #fff;
+        background-color: #7d4c7d; /* Purple button color */
+        border-radius: 25px;
+        transition: background-color 0.3s ease;
+    }
+
+    .donate-button:hover {
+        background-color: #6a3a6a;
+        color: #fff;
+    }
+
+
+    @media screen and (max-width: 600px) {
+        #about {
+            padding: 20px;
+        }
+
+        #about h1 {
+            font-size: 24px;
+        }
+
+        #about p {
+            font-size: 16px;
+        }
+
+        .donate-button {
+            padding: 12px 24px;
+            font-size: 16px;
+        }
+    }
+</style>
+
+{% block content %}
+  <div id="about">
+    <h1>About Our Project</h1>
+    <p>
+        Welcome to our organization, where we empower lives through hopeful hair. Our mission is to transform confidence by accepting hair donations and making a positive impact on people's lives. Join us in making a difference!
+    </p>
+
+    <p>
+        Donate your hair today and be a part of our journey. Your contribution helps create a world where everyone can feel confident and empowered.
+    </p>
+
+    <div class="donate-button-container">
+        <a href="{% url 'services_page' %}" class="donate-button">Donate Hair</a>
+    </div>
+  </div>
+{% endblock %}

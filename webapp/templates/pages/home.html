@@ -1,0 +1,124 @@
+
+{% load static %}
+
+{% include 'pages/index.html' %}
+
+<style>
+    h1{
+        margin-top: 100px;
+        color: #000;
+        text-align: center;
+    }
+
+
+.homepage-container {
+    text-align: center;
+    padding: 40px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: #333;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #666;
+    font-size: 18px;
+}
+
+.image-container img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.donate-button-container {
+    margin-top: 30px;
+}
+
+.donate-button {
+    display: inline-block;
+    padding: 15px 35px;
+    font-size: 18px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #7d4c7d;  /* Unique button color */
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+}
+
+.donate-button:hover {
+    background-color: #6a3a6a;
+    color: aliceblue;
+}
+
+#additional-content {
+    margin-top: 40px;
+}
+
+h2 {
+    color: #7d4c7d;  /* Unique header color */
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+#additional-content p {
+    color: #666;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Media Queries for Responsive Design */
+@media screen and (max-width: 600px) {
+    .homepage-container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    .donate-button {
+        padding: 12px 24px;
+        font-size: 16px;
+    }
+
+    #additional-content h2 {
+        font-size: 20px;
+    }
+
+    #additional-content p {
+        font-size: 14px;
+    }
+}
+
+</style>
+
+{% block content %}
+  <div class="homepage-container">
+    <section id="about">
+      <h1>Empowering Lives Through Hopeful Hair</h1>
+      <p>Transforming Confidence with Hair Donations</p>
+    </section>
+
+    <section id="donate">
+      <div class="image-container">
+        <img src="{% static 'images/download.jpg' %}" alt="Hopeful Hair Image">
+      </div>
+
+      <div class="donate-button-container">
+        <a href="{% url 'services_page' %}" class="donate-button">Donate Hair</a>
+      </div>
+    </section>
+
+
+  </div>
+{% endblock %}
